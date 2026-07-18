@@ -1,0 +1,46 @@
+.db-bloque-individual {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.db-titulo-seccion {
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: #ffffff;
+    font-style: italic;
+    margin: 0;
+}
+.db-mini-tag {
+    display: block;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: bold;
+    color: #9ca3af;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+.db-grid-dos-columnas {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+@media (min-width: 768px) {
+    .db-grid-dos-columnas {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.db-grid-dos-columnas-mini {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+@media (min-width: 640px) {
+    .db-grid-dos-columnas-mini {
+        grid-template-columns: 1fr 1fr;
+    }
+}

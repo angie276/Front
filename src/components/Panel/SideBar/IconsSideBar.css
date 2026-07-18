@@ -1,0 +1,9 @@
+/* Estilos base para todos los SVG icons del SideBar */
+.icon-svg {
+    flex-shrink: 0;
+}
+
+.red-icon {
+    color: #e74c3c;
+    transition: color 0.2s ease;
+}

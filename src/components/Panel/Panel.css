@@ -1,0 +1,38 @@
+/* Panel wrapper: full height column layout, header top, body below */
+.panel-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #05010d;
+    box-sizing: border-box;
+}
+
+/* Panel body: horizontal layout (tareas + recursos side-by-side) */
+.panel-body {
+    display: flex;
+    gap: 24px;
+    padding: 24px;
+    background-color: #05010d;
+    flex: 1;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.panel-tareas {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 0 0 65%;
+    margin-left: 50px;
+    height: auto;
+    overflow: visible;
+    min-width: 0;
+}
+
+.panel-recursos {
+    display: flex;
+    flex: 0 0 30%;
+    flex-direction: column;
+    margin-right: 50px;
+    min-width: 0;
+}

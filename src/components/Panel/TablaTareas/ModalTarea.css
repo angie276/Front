@@ -1,0 +1,292 @@
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(5, 1, 13, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal-content {
+    background-color: #0d0717;
+    border: 1px solid rgba(124, 109, 242, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(124, 109, 242, 0.15);
+    border-radius: 24px;
+    width: 90%;
+    max-width: 600px;
+    padding: 24px;
+    color: white;
+    box-sizing: border-box;
+    animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(124, 109, 242, 0.1);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+}
+
+.modal-subtitulo-sup {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #8b7eff;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+}
+
+.boton-cerrar-x {
+    background: none;
+    border: none;
+    color: #8c86a6;
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+/* Título transparente */
+.modal-titulo-wrapper {
+    margin-bottom: 20px;
+}
+
+.modal-titulo-input {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px dashed rgba(124, 109, 242, 0.2) !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    padding: 0 0 10px 0 !important;
+    margin: 0;
+    width: 100%;
+    outline: none;
+    border-radius: 0 !important;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.modal-titulo-input:focus {
+    border-bottom-color: #8b7eff !important;
+    box-shadow: none !important;
+}
+
+/* Peso input container */
+.peso-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.selector-peso {
+    padding-right: 32px !important;
+    width: 100%;
+}
+
+.porcentaje-simbolo {
+    position: absolute;
+    right: 16px;
+    color: #8b7eff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+}
+
+
+.boton-cerrar-x:hover {
+    color: #ff4d6d;
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.grupo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.grupo-formulario label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #8b7eff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.grupo-formulario input[type="text"],
+.grupo-formulario select,
+.grupo-formulario input[type="date"] {
+    background-color: #0c071d;
+    border: 1px solid rgba(124, 109, 242, 0.2);
+    padding: 12px 16px;
+    border-radius: 12px;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.25s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.grupo-formulario input[type="text"]:focus,
+.grupo-formulario select:focus,
+.grupo-formulario input[type="date"]:focus {
+    border-color: #8b7eff;
+    box-shadow: 0 0 12px rgba(124, 109, 242, 0.25);
+}
+
+.cuadricula-formulario {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 480px) {
+    .cuadricula-formulario {
+        grid-template-columns: 1fr;
+    }
+}
+
+.badge-contenedor-modal {
+    display: flex;
+    align-items: center;
+    height: 45px;
+}
+
+.checkbox-container {
+    padding: 8px 0;
+}
+
+.checkbox-label-modal {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-label-modal input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #8b7eff;
+    cursor: pointer;
+}
+
+.checkbox-custom-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(124, 109, 242, 0.1);
+    padding-top: 20px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.botones-derecha {
+    display: flex;
+    gap: 12px;
+}
+
+.boton-eliminar-tarea {
+    background-color: rgba(231, 76, 60, 0.15);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.boton-eliminar-tarea:hover {
+    background-color: #e74c3c;
+    color: white;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+}
+
+.boton-cancelar {
+    background-color: transparent;
+    color: #8c86a6;
+    border: 1px solid rgba(140, 134, 166, 0.2);
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.boton-cancelar:hover {
+    background-color: rgba(140, 134, 166, 0.1);
+    color: white;
+}
+
+.boton-guardar {
+    background-color: #8b7eff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.boton-guardar:hover {
+    background-color: #a399ff;
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(124, 109, 242, 0.4);
+}

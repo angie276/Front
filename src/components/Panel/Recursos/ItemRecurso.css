@@ -1,0 +1,137 @@
+.item-recurso {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #211339;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    color: white;
+    gap: 12px;
+}
+
+.contenedor-item {
+    background: #211339;
+    border: 1px solid #211339;
+    border-radius: 12px;
+    padding: 10px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: white;
+    width: 80%;
+}
+
+.titulo-y-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.item-nombre {
+    margin: 0 !important;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.badge-recurso {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.badge-pdf {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.badge-doc {
+    background: rgba(59, 130, 246, 0.12);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.badge-csv {
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.badge-ppt {
+    background: rgba(245, 158, 11, 0.12);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.badge-url {
+    background: rgba(124, 109, 242, 0.12);
+    color: #a295ff;
+    border: 1px solid rgba(124, 109, 242, 0.25);
+}
+
+.badge-otros {
+    background: rgba(107, 114, 128, 0.12);
+    color: #9ca3af;
+    border: 1px solid rgba(107, 114, 128, 0.25);
+}
+
+.url-recurso {
+    background: rgba(0, 0, 0, 0.12);
+    padding: 6px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 400;
+    transition: all 0.2s ease;
+}
+
+.url-recurso:hover:not(.sin-enlace) {
+    background: rgba(124, 109, 242, 0.15);
+    color: white;
+}
+
+.url-recurso.sin-enlace {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.3);
+    cursor: default;
+}
+
+.eliminar {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.25);
+    color: #f87171;
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+.eliminar:hover {
+    background-color: rgba(220, 53, 69, 0.25);
+    border-color: rgba(220, 53, 69, 0.5);
+    transform: scale(1.05);
+}

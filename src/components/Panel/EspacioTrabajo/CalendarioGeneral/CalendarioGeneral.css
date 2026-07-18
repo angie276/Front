@@ -1,0 +1,420 @@
+/* ══════════════════════════════════════════════
+   CALENDARIO GENERAL — REDISEÑO COMPLETO
+══════════════════════════════════════════════ */
+
+/* Layout principal */
+.cal-wrapper {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 0;
+    height: calc(100vh - 260px);
+    min-height: 560px;
+    border: 1px solid rgba(124, 109, 242, 0.12);
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: #05010d;
+    animation: fadeIn 0.3s ease;
+}
+
+/* ── PANEL IZQUIERDO ── */
+.cal-sidebar {
+    background-color: #0c071d;
+    border-right: 1px solid rgba(124, 109, 242, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    padding: 0 0 16px 0;
+}
+.cal-sidebar::-webkit-scrollbar { display: none; }
+
+/* Navegación mes */
+.cal-mes-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid rgba(124, 109, 242, 0.08);
+}
+
+.cal-nav-btn {
+    background: transparent;
+    border: 1px solid rgba(124, 109, 242, 0.2);
+    color: #8b7eff;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+.cal-nav-btn:hover {
+    background-color: rgba(139, 126, 255, 0.1);
+    border-color: #8b7eff;
+}
+
+.cal-mes-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #a29ebc;
+    letter-spacing: 0.06em;
+    text-align: center;
+}
+.cal-mes-label strong {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+/* Secciones del panel */
+.cal-filtro-section {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid rgba(124, 109, 242, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cal-filtro-titulo {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #8c86a6;
+    display: flex;
+    align-items: center;
+}
+
+/* Buscador */
+.cal-busqueda-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #120a26;
+    border: 1px solid rgba(124, 109, 242, 0.15);
+    border-radius: 10px;
+    padding: 7px 10px;
+    color: #8c86a6;
+}
+
+.cal-busqueda {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    width: 100%;
+}
+.cal-busqueda::placeholder { color: #a29ebc66; font-style: italic; }
+
+/* Chips de proyectos */
+.cal-proyectos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cal-proyecto-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid rgba(124, 109, 242, 0.1);
+    border-radius: 8px;
+    padding: 7px 10px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #a29ebc;
+    text-align: left;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+.cal-proyecto-chip:hover { background-color: rgba(124, 109, 242, 0.05); color: white; }
+.cal-proyecto-chip.activo { background-color: rgba(139, 126, 255, 0.08); }
+
+.cal-chip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.cal-chip-count {
+    margin-left: auto;
+    font-size: 0.65rem;
+    background-color: rgba(124, 109, 242, 0.1);
+    padding: 1px 6px;
+    border-radius: 10px;
+    color: #8b7eff;
+}
+
+/* Próximas entregas */
+.cal-proximas { flex: 1; }
+
+.cal-empty-proximas {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: #8c86a666;
+    font-style: italic;
+    text-align: center;
+    padding: 8px 0;
+    margin: 0;
+}
+
+.cal-proximas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cal-proxima-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cal-proxima-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.cal-proxima-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.cal-proxima-titulo {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: #ffffff;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cal-proxima-fecha {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    color: #8c86a6;
+}
+
+/* Estadísticas */
+.cal-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 12px 16px 0;
+}
+
+.cal-stat-item {
+    background-color: #120a26;
+    border: 1px solid rgba(124, 109, 242, 0.1);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.cal-stat-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #8c86a6;
+}
+
+.cal-stat-valor {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+.cal-stat-valor.verde { color: #34d399; }
+.cal-stat-valor.rojo  { color: #f87171; }
+
+/* ── GRILLA PRINCIPAL ── */
+.cal-main {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: #05010d;
+}
+
+/* Cabecera días de semana */
+.cal-grid-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-bottom: 1px solid rgba(124, 109, 242, 0.1);
+}
+
+.cal-dia-nombre {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #8c86a6;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Grilla de días */
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+.cal-grid::-webkit-scrollbar { display: none; }
+
+/* Celda individual */
+.cal-celda {
+    border-right: 1px solid rgba(124, 109, 242, 0.06);
+    border-bottom: 1px solid rgba(124, 109, 242, 0.06);
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-height: 88px;
+    transition: background-color 0.15s ease;
+    cursor: default;
+}
+.cal-celda:nth-child(7n) { border-right: none; }
+
+.cal-celda:hover {
+    background-color: rgba(124, 109, 242, 0.03);
+}
+
+.cal-celda.otro-mes { opacity: 0.3; }
+.cal-celda.hoy { background-color: rgba(139, 126, 255, 0.06); }
+
+/* Número de día */
+.cal-num-dia {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #a29ebc;
+    line-height: 1;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    line-height: 22px;
+    border-radius: 50%;
+}
+
+.cal-num-dia.hoy-badge {
+    background-color: #8b7eff;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+/* Chips de tareas en el día */
+.cal-tareas-dia {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cal-tarea-chip {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    padding: 2px 5px;
+    border-radius: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+.cal-tarea-chip:hover { opacity: 0.8; }
+
+.cal-mas-tareas {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    color: #8c86a6;
+    padding-left: 4px;
+}
+
+/* ── Barras de duración de proyectos ── */
+.cal-proyectos-dia {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 2px;
+}
+
+.cal-proyecto-barra {
+    height: 14px;
+    border-radius: 3px;
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    overflow: hidden;
+    border-radius: 0;
+    /* días intermedios: solo barra de fondo */
+    border-left: none;
+    border-right: none;
+}
+
+.cal-proyecto-barra.inicio {
+    border-radius: 4px 0 0 4px;
+    border-left: 2px solid;
+}
+
+.cal-proyecto-barra.fin {
+    border-radius: 0 4px 4px 0;
+    border-right: 2px solid;
+}
+
+.cal-proyecto-barra.inicio.fin {
+    border-radius: 4px;
+    border-left: 2px solid;
+    border-right: 2px solid;
+}
+
+.cal-proyecto-nombre {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .cal-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        height: auto;
+    }
+    .cal-sidebar {
+        border-right: none;
+        border-bottom: 1px solid rgba(124, 109, 242, 0.1);
+    }
+}
+

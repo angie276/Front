@@ -1,0 +1,53 @@
+.espacio-trabajo-icon {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.proyecto-icon-wrapper svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2;
+}
+
+.ver-workspace-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.5;
+}
+
+.proyecto-tag-badge svg {
+    width: 13px;
+    height: 13px;
+    stroke-width: 2.5;
+}
+
+.footer-pill svg {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2;
+}
+
+.boton-crear-proyecto svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+}
+
+.modal-close-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+}
+
+/* Iconos dentro de tabs/switchers: igual al tamaño del texto (1em) */
+.workspace-tab-btn svg,
+.switcher-btn svg {
+    width: 1em;
+    height: 1em;
+    stroke-width: 2;
+    flex-shrink: 0;
+}

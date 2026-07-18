@@ -1,0 +1,35 @@
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #05010d;
+    position: relative;
+    width: 100%;
+}
+
+.app-main-content {
+    flex: 1;
+    min-height: 100vh;
+    background-color: #05010d;
+    transition: margin-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+/* Ajustes de margen y ancho según el estado de la Sidebar */
+.app-layout.sidebar-expandido .app-main-content {
+    margin-left: 280px;
+    width: calc(100% - 280px);
+}
+
+.app-layout.sidebar-colapsado .app-main-content {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+}
+
+/* En dispositivos móviles pequeños colapsar el margen y flotar la barra si es necesario, pero mantenemos simple y responsivo */
+@media (max-width: 768px) {
+    .app-layout.sidebar-expandido .app-main-content {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+}

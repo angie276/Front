@@ -1,0 +1,28 @@
+.db-progreso-contenedor {
+    margin-bottom: 16px;
+}
+
+.db-progreso-texto {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 6px;
+}
+
+.db-barra-fondo {
+    height: 8px;
+    width: 100%;
+    background-color: #24163d;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.db-barra-relleno {
+    height: 100%;
+    background-color: #8b5cf6;
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+}
