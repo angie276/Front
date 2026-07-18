@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }) => {
     // Obtener lista de usuarios registrados (Local)
     const obtenerUsuarios = async () => {
         try {
-            const response = await api.get('/alumnos');
+            const response = await api.get('/api/alumnos');
             return response.data.usuarios || [];
         } catch (error) {
             console.error("Error obteniendo alumnos:", error);
