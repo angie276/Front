@@ -27,8 +27,8 @@ const Panel = ({ onVolver, proyecto }) => {
                 const filtrados = (todosUsuarios || [])
                     .filter(u => {
                         const proyectosUsuario = u.proyectos || [];
-                        const esMiembro = proyectosUsuario.some(p => p.id === proyectoSincronizado.id);
-                        const esCreador = u.id === proyectoSincronizado.creadorId;
+                        const esMiembro = proyectosUsuario.some(p => String(p.id) === String(proyectoSincronizado.id));
+                        const esCreador = String(u.id) === String(proyectoSincronizado.creadorId);
                         return esMiembro || esCreador;
                     })
                     .map((u, i) => ({ 
