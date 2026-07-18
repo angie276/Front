@@ -2,61 +2,32 @@ import { useState, useEffect } from "react";
 import "./Recursos.css"
 import AgregarRecurso from "./AgregarRecurso"
 import ItemRecurso from "./ItemRecurso"
-import {
-    getRecursosByProyecto,
-    crearRecurso,
-    eliminarRecurso as eliminarRecursoApi
-} from "../../../services/recurso.service.js";
+import { useAuth } from "../../../context/AuthContext";
 
 const Recursos = ({ proyecto }) => {
-    const [recursos, setRecursos] = useState([]);
+    const { usuarioActual, actualizarContenidoProyecto } = useAuth();
+    const [recursos, setRecursos] = useState(proyecto?.recursos || []);
     const [filtroActivo, setFiltroActivo] = useState("todos");
 
-    // PostgreSQL is the source of truth. Reload when the selected project changes.
+    // Sync state with project prop updates
     useEffect(() => {
-        let activo = true;
-
-        const cargarRecursos = async () => {
-            if (!proyecto?.id) {
-                setRecursos([]);
-                return;
-            }
-
-            try {
-                const respuesta = await getRecursosByProyecto(proyecto.id);
-                if (activo) setRecursos(respuesta.recursos || []);
-                console.log('[RECURSOS] Recursos cargados:', respuesta.recursos || []);
-            } catch (error) {
-                console.error('[RECURSOS] Error al cargar recursos:', error);
-                if (activo) setRecursos([]);
-            }
-        };
-
-        cargarRecursos();
-        return () => { activo = false; };
-    }, [proyecto?.id]);
+        setRecursos(proyecto?.recursos || []);
+    }, [proyecto]);
 
     const agregarRecurso = async (nuevoRecurso) => {
-        try {
-            console.log('[RECURSOS] Creando recurso:', nuevoRecurso);
-            const respuesta = await crearRecurso({ ...nuevoRecurso, proyectoId: proyecto.id });
-            setRecursos(prev => [...prev, respuesta.recurso]);
-            console.log('[RECURSOS] Recurso creado:', respuesta.recurso);
-        } catch (error) {
-            console.error('[RECURSOS] Error al crear recurso:', error);
-            alert(error.response?.data?.mensaje || error.message || 'No se pudo crear el recurso.');
-        }
+        const recursosActualizados = [...recursos, nuevoRecurso];
+        setRecursos(recursosActualizados);
+
+        const tareasActuales = usuarioActual?.proyectos?.find(p => p.id === proyecto.id)?.tareas || [];
+        await actualizarContenidoProyecto(proyecto.id, tareasActuales, recursosActualizados);
     };
 
     const eliminarRecurso = async (id) => {
-        try {
-            await eliminarRecursoApi(id);
-            setRecursos(prev => prev.filter(r => r.id !== id));
-            console.log('[RECURSOS] Recurso eliminado:', id);
-        } catch (error) {
-            console.error('[RECURSOS] Error al eliminar recurso:', error);
-            alert(error.response?.data?.mensaje || error.message || 'No se pudo eliminar el recurso.');
-        }
+        const recursosActualizados = recursos.filter(r => r.id !== id);
+        setRecursos(recursosActualizados);
+
+        const tareasActuales = usuarioActual?.proyectos?.find(p => p.id === proyecto.id)?.tareas || [];
+        await actualizarContenidoProyecto(proyecto.id, tareasActuales, recursosActualizados);
     };
 
     // Filter resources by selected category

@@ -134,7 +134,7 @@
 .select-categoria {
     background-color: #140d23;
     border: 1px solid #24163d;
-    padding: 16px;
+    padding: 12px 14px;
     border-radius: 16px;
     color: white;
     font-size: 0.95rem;
@@ -187,7 +187,7 @@
     flex: 1;
     background-color: #140d23;
     border: 1px solid #24163d;
-    padding: 16px;
+    padding: 12px 14px;
     border-radius: 16px;
     color: white;
     font-size: 0.95rem;
@@ -202,23 +202,30 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .contenedor-url {
     display: flex;
     gap: 10px;
     align-items: center;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .input-url {
     flex: 1;
     background-color: #140d23;
     border: 1px solid #24163d;
-    padding: 16px;
+    padding: 12px 14px;
     border-radius: 16px;
     color: white;
     font-size: 0.95rem;
     transition: border-color 0.2s ease;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .input-url:hover, .input-url:focus {
@@ -229,6 +236,7 @@
 .contenedor-file-input {
     flex: 1;
     display: flex;
+    min-width: 0;
 }
 
 .label-file-input {
@@ -237,15 +245,22 @@
     width: 100%;
     background-color: #140d23;
     border: 1px solid #24163d;
-    padding: 16px;
+    padding: 12px 14px;
     border-radius: 16px;
     color: #8c86a6;
     font-size: 0.95rem;
     cursor: pointer;
     transition: border-color 0.2s ease;
     overflow: hidden;
-    white-space: nowrap;
+    min-width: 0;
+}
+
+.label-file-input span {
+    display: block;
+    overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
 }
 
 .label-file-input:hover {
@@ -260,7 +275,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 16px 20px;
+    padding: 12px 16px;
     border: 1px solid #2a054d;
     background-color: #2a054d;
     border-radius: 16px;

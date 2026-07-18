@@ -418,3 +418,30 @@
     color: white;
 }
 
+.notification-badge-sidebar {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    background-color: #ff4d6d;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 800;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(255, 77, 109, 0.5);
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+}
+
+.app-sidebar.colapsado .notification-badge-sidebar {
+    top: 6px;
+    right: 16px;
+    transform: none;
+}
+

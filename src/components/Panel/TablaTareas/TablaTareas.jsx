@@ -3,19 +3,14 @@ import ItemTarea from "./ItemTarea";
 import AgregarTarea from "./AgregarTarea";
 import ModalTarea from "./ModalTarea";
 import CronogramaTareas from "../CronogramaTareas/CronogramaTareas";
+import { useAuth } from "../../../context/AuthContext";
 import { ListIcon, ChartIcon } from "../EspacioTrabajo/Icons/Icons";
-import {
-    getTareasByProyecto,
-    crearTarea,
-    actualizarTarea as actualizarTareaApi,
-    cambiarEstadoTarea,
-    eliminarTarea as eliminarTareaApi
-} from "../../../services/tarea.service.js";
 
 import "./TablaTareas.css";
 
 const TablaTareas = ({ proyecto, miembros = [] }) => {
-    const [tareas, setTareas] = useState([]);
+    const { usuarioActual, actualizarContenidoProyecto } = useAuth();
+    const [tareas, setTareas] = useState(proyecto?.tareas || []);
     const [vistaTareas, setVistaTareas] = useState("lista"); // "lista" | "cronograma"
     const [tareaSeleccionada, setTareaSeleccionada] = useState(null);
 
@@ -24,43 +19,19 @@ const TablaTareas = ({ proyecto, miembros = [] }) => {
     const [filtroEstado, setFiltroEstado] = useState("Todos");
     const [filtroPrioridad, setFiltroPrioridad] = useState("Todos");
 
-    // PostgreSQL is the source of truth. Reload when the selected project changes.
+    // Sincronizar el estado de tareas cuando el proyecto cambia (ej. recargas)
     useEffect(() => {
-        let activo = true;
-
-        const cargarTareas = async () => {
-            if (!proyecto?.id) {
-                setTareas([]);
-                return;
-            }
-
-            try {
-                const respuesta = await getTareasByProyecto(proyecto.id);
-                if (activo) setTareas(respuesta.tareas || []);
-                console.log('[TAREAS] Tareas cargadas:', respuesta.tareas || []);
-            } catch (error) {
-                console.error('[TAREAS] Error al cargar tareas:', error);
-                if (activo) setTareas([]);
-            }
-        };
-
-        cargarTareas();
-        return () => { activo = false; };
-    }, [proyecto?.id]);
+        setTareas(proyecto?.tareas || []);
+    }, [proyecto]);
 
     const agregarTarea = async (nuevaTarea) => {
-        try {
-            console.log('[TAREAS] Creando tarea:', nuevaTarea);
-            const respuesta = await crearTarea({ ...nuevaTarea, proyectoId: proyecto.id });
-            setTareas(prev => [...prev, respuesta.tarea]);
-            console.log('[TAREAS] Tarea creada:', respuesta.tarea);
-        } catch (error) {
-            console.error('[TAREAS] Error al crear tarea:', error);
-            alert(error.response?.data?.mensaje || error.message || 'No se pudo crear la tarea.');
-        }
+        const tareasActualizadas = [...tareas, nuevaTarea];
+        setTareas(tareasActualizadas);
+        const recursosActuales = usuarioActual?.proyectos?.find(p => p.id === proyecto.id)?.recursos || [];
+        await actualizarContenidoProyecto(proyecto.id, tareasActualizadas, recursosActuales);
     };
 
-    /* const checkTareaLocal = (id) => {
+    const checkTarea = async (id) => {
         const tareasActualizadas = tareas.map(tarea => {
             if (tarea.id === id) {
                 const nuevoEstado = (tarea.estado === "ENVIADO" || tarea.estado === "REVISADO") ? "PENDIENTE" : "ENVIADO";
@@ -71,7 +42,7 @@ const TablaTareas = ({ proyecto, miembros = [] }) => {
         });
         setTareas(tareasActualizadas);
         const recursosActuales = usuarioActual?.proyectos?.find(p => p.id === proyecto.id)?.recursos || [];
-        actualizarContenidoProyecto(proyecto.id, tareasActualizadas, recursosActuales);
+        await actualizarContenidoProyecto(proyecto.id, tareasActualizadas, recursosActuales);
 
         // Si la tarea que se checkea está abierta en el modal, actualizarla allí también
         if (tareaSeleccionada && tareaSeleccionada.id === id) {
@@ -84,44 +55,18 @@ const TablaTareas = ({ proyecto, miembros = [] }) => {
         }
     };
 
-    };
-    */
-
-    const checkTarea = async (id) => {
-        try {
-            const respuesta = await cambiarEstadoTarea(id);
-            const tareaActualizada = respuesta.tarea;
-            setTareas(prev => prev.map(t => t.id === id ? tareaActualizada : t));
-            setTareaSeleccionada(prev => prev?.id === id ? tareaActualizada : prev);
-            console.log('[TAREAS] Estado actualizado:', tareaActualizada);
-        } catch (error) {
-            console.error('[TAREAS] Error al actualizar estado:', error);
-            alert(error.response?.data?.mensaje || error.message || 'No se pudo actualizar la tarea.');
-        }
-    };
-
     const actualizarTarea = async (tareaActualizada) => {
-        try {
-            const respuesta = await actualizarTareaApi(tareaActualizada.id, tareaActualizada);
-            setTareas(prev => prev.map(t => t.id === tareaActualizada.id ? respuesta.tarea : t));
-            console.log('[TAREAS] Tarea editada:', respuesta.tarea);
-        } catch (error) {
-            console.error('[TAREAS] Error al editar tarea:', error);
-            alert(error.response?.data?.mensaje || error.message || 'No se pudo guardar la tarea.');
-            throw error;
-        }
+        const tareasActualizadas = tareas.map(t => t.id === tareaActualizada.id ? tareaActualizada : t);
+        setTareas(tareasActualizadas);
+        const recursosActuales = usuarioActual?.proyectos?.find(p => p.id === proyecto.id)?.recursos || [];
+        await actualizarContenidoProyecto(proyecto.id, tareasActualizadas, recursosActuales);
     };
 
     const eliminarTarea = async (idTarea) => {
-        try {
-            await eliminarTareaApi(idTarea);
-            setTareas(prev => prev.filter(t => t.id !== idTarea));
-            console.log('[TAREAS] Tarea eliminada:', idTarea);
-        } catch (error) {
-            console.error('[TAREAS] Error al eliminar tarea:', error);
-            alert(error.response?.data?.mensaje || error.message || 'No se pudo eliminar la tarea.');
-            throw error;
-        }
+        const tareasActualizadas = tareas.filter(t => t.id !== idTarea);
+        setTareas(tareasActualizadas);
+        const recursosActuales = usuarioActual?.proyectos?.find(p => p.id === proyecto.id)?.recursos || [];
+        await actualizarContenidoProyecto(proyecto.id, tareasActualizadas, recursosActuales);
     };
 
     // Helper para determinar estado calculado
@@ -299,12 +244,12 @@ const TablaTareas = ({ proyecto, miembros = [] }) => {
                 <ModalTarea
                     tarea={tareaSeleccionada}
                     onClose={() => setTareaSeleccionada(null)}
-                    onSave={async (updated) => {
-                        await actualizarTarea(updated);
+                    onSave={(updated) => {
+                        actualizarTarea(updated);
                         setTareaSeleccionada(null);
                     }}
-                    onDelete={async (id) => {
-                        await eliminarTarea(id);
+                    onDelete={(id) => {
+                        eliminarTarea(id);
                         setTareaSeleccionada(null);
                     }}
                     miembros={miembros}

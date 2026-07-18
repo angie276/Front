@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Header from "./Header/Header"
 import ResumenProyecto from "./ResumenProyecto/ResumenProyecto"
 import Recursos from "./Recursos/Recursos"
@@ -10,6 +10,7 @@ import { useAuth } from "../../context/AuthContext";
 const Panel = ({ onVolver, proyecto }) => {
     const { usuarioActual, obtenerUsuarios } = useAuth();
     const [pestanaActiva, setPestanaActiva] = useState('tareas');
+    const [miembros, setMiembros] = useState([]);
 
     // 1. CAMBIO CRÍTICO: Buscamos el proyecto fresco directamente desde el usuario activo
     const proyectoSincronizado = usuarioActual?.proyectos?.find(p => p.id === proyecto.id) || proyecto;
@@ -17,12 +18,43 @@ const Panel = ({ onVolver, proyecto }) => {
     // 2. Extraemos las tareas directo del proyecto sincronizado (SIN useState)
     const tareas = proyectoSincronizado?.tareas || [];
 
-    // 3. Derivamos los miembros del grupo: todos los usuarios que tienen este proyecto
-    //    Se recalcula en cada render porque depende de usuarioActual (que cambia al quitar/agregar miembros)
-    const todosUsuarios = obtenerUsuarios();
-    const miembros = todosUsuarios
-        .filter(u => u.proyectos?.some(p => p.id === proyectoSincronizado.id))
-        .map((u, i) => ({ id: i + 1, userId: u.id, email: u.email, nombre: u.nombre, apellido: u.apellido }));
+    // 3. Derivamos los miembros de forma asíncrona y los actualizamos con polling
+    useEffect(() => {
+        let activo = true;
+        const fetchMiembros = () => {
+            obtenerUsuarios().then(todosUsuarios => {
+                if (!activo) return;
+                const filtrados = (todosUsuarios || [])
+                    .filter(u => {
+                        const proyectosUsuario = u.proyectos || [];
+                        const esMiembro = proyectosUsuario.some(p => p.id === proyectoSincronizado.id);
+                        const esCreador = u.id === proyectoSincronizado.creadorId;
+                        return esMiembro || esCreador;
+                    })
+                    .map((u, i) => ({ 
+                        id: i + 1, 
+                        userId: u.id, 
+                        email: u.email || u.correo, 
+                        nombre: u.nombre, 
+                        apellido: u.apellido 
+                    }));
+                
+                // Evitar actualizaciones de estado si la lista es idéntica
+                setMiembros(prev => {
+                    if (JSON.stringify(prev) === JSON.stringify(filtrados)) return prev;
+                    return filtrados;
+                });
+            });
+        };
+
+        fetchMiembros();
+        const interval = setInterval(fetchMiembros, 4000); // Polling cada 4 segundos
+
+        return () => {
+            activo = false;
+            clearInterval(interval);
+        };
+    }, [usuarioActual, proyectoSincronizado.id]);
 
     const tareasCompletas = tareas.filter(tarea => tarea.check);
 

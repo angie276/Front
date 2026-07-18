@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import './GestionUsuarios.css';
@@ -42,9 +42,9 @@ const ModalCambiarContrasena = ({ usuario, onCerrar, onGuardar }) => {
                 {errorModal && <div className="modal-mensaje-error">{errorModal}</div>}
 
                 <div className="modal-campo">
-                    <label htmlFor="nueva-password-admin">Nueva contraseña</label>
+                    <label htmlFor="nueva-contrasena-admin">Nueva contraseña</label>
                     <input
-                        id="nueva-password-admin"
+                        id="nueva-contrasena-admin"
                         type="password"
                         placeholder="Mínimo 6 caracteres"
                         value={nuevaContrasena}
@@ -53,9 +53,9 @@ const ModalCambiarContrasena = ({ usuario, onCerrar, onGuardar }) => {
                 </div>
 
                 <div className="modal-campo">
-                    <label htmlFor="confirmar-nueva-password-admin">Confirmar contraseña</label>
+                    <label htmlFor="confirmar-nueva-contrasena-admin">Confirmar contraseña</label>
                     <input
-                        id="confirmar-nueva-password-admin"
+                        id="confirmar-nueva-contrasena-admin"
                         type="password"
                         placeholder="Repite la nueva contraseña"
                         value={confirmar}
@@ -82,8 +82,12 @@ const GestionUsuarios = () => {
     const navegar = useNavigate();
 
     const [contador, setContador] = useState(0);
-    const usuarios = obtenerUsuarios();
+    const [usuarios, setUsuarios] = useState([]);
     const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+
+    useEffect(() => {
+        obtenerUsuarios().then(lista => setUsuarios(lista || []));
+    }, [contador]);
 
     const handleCerrarSesion = () => {
         cerrarSesionAdmin();
@@ -91,14 +95,12 @@ const GestionUsuarios = () => {
     };
 
     const handleToggleEstado = async (idUsuario) => {
-        // La asincronía previene colisiones visuales al renderizar listas basadas en el mismo contexto
-        await new Promise(r => setTimeout(r, 100));
-        toggleEstadoUsuario(idUsuario);
+        await toggleEstadoUsuario(idUsuario);
         setContador(c => c + 1);
     };
 
-    const handleCambiarContrasena = (idUsuario, nuevaContrasena) => {
-        cambiarContrasenaUsuario(idUsuario, nuevaContrasena);
+    const handleCambiarContrasena = async (idUsuario, nuevaContrasena) => {
+        await cambiarContrasenaUsuario(idUsuario, nuevaContrasena);
         setContador(c => c + 1);
     };
 

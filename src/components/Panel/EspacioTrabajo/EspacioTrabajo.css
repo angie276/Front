@@ -37,11 +37,6 @@
     letter-spacing: -0.02em;
     margin: 0 0 0.5rem 0;
 }
-.icon-wrapper svg {
-    width: 20px;  
-    height: 20px;
-    flex-shrink: 0; 
-}
 
 .proyectos-subtitulo {
     font-size: 1.05rem;

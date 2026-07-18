@@ -10,7 +10,7 @@ export const toggleEstadoAlumno = async (id) => {
   return response.data;
 };
 
-export const cambiarPasswordAlumno = async (id, nuevaPassword) => {
-  const response = await api.put(`/api/alumnos/${id}/password`, { nuevaPassword });
+export const cambiarContrasenaAlumno = async (id, nuevaContrasena) => {
+  const response = await api.put(`/api/alumnos/${id}/contrasena`, { nuevaContrasena });
   return response.data;
 };

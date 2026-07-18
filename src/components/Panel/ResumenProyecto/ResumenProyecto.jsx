@@ -35,9 +35,9 @@ const ResumenProyecto = ({
     };
 
     // Confirmar eliminar/salir del grupo
-    const handleConfirmar = () => {
+    const handleConfirmar = async () => {
         if (esCreador) {
-            eliminarGrupo(proyecto.id);
+            await eliminarGrupo(proyecto.id);
         } else {
             salirDeGrupo(proyecto.id);
         }
