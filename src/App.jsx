@@ -17,6 +17,16 @@ function App() {
   const [mostrarNotificaciones, setMostrarNotificaciones] = useState(false);
   const [unreadCount, setUnreadCount] = useNotificationCount(usuarioActual, obtenerUsuarios);
 
+  // Redirigir fuera del panel de proyecto si el usuario es eliminado del mismo
+  useEffect(() => {
+    if (vista === 'panel' && proyectoSeleccionado) {
+      const sigueSiendoMiembro = usuarioActual?.proyectos?.some(p => String(p.id) === String(proyectoSeleccionado.id));
+      if (!sigueSiendoMiembro) {
+        handleVolverProyectos();
+      }
+    }
+  }, [usuarioActual?.proyectos, vista, proyectoSeleccionado]);
+
   const handleOpenNotifications = () => {
     setMostrarNotificaciones(true);
     setUnreadCount(0);

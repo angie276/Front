@@ -24,13 +24,13 @@ export const unirseGrupoPorCodigo = async (codigo, userId) => {
 };
 
 export const salirDeGrupo = async (id, userId) => {
-  // Simulado en frontend
-  return { exito: true };
+  const response = await api.delete(`/api/proyectos/${id}/salir`);
+  return response.data;
 };
 
 export const quitarMiembro = async (id, miembroId, creadorId) => {
-  // Simulado en frontend
-  return { exito: true };
+  const response = await api.delete(`/api/proyectos/${id}/miembros/${miembroId}`);
+  return response.data;
 };
 
 export const sincronizarTareas = async (id, tareas) => {

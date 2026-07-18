@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { getProyectosByUsuario, crearProyecto, eliminarProyecto, unirseGrupoPorCodigo as apiUnirseGrupoPorCodigo } from '../services/proyecto.service.js';
+import { getProyectosByUsuario, crearProyecto, eliminarProyecto, unirseGrupoPorCodigo as apiUnirseGrupoPorCodigo, salirDeGrupo as apiSalirDeGrupo, quitarMiembro as apiQuitarMiembro } from '../services/proyecto.service.js';
 import { getTareasByProyecto, crearTarea, actualizarTarea, eliminarTarea } from '../services/tarea.service.js';
 import { getRecursosByProyecto, crearRecurso, eliminarRecurso } from '../services/recurso.service.js';
 import api from '../services/api.js';
@@ -89,6 +89,19 @@ export const AuthProvider = ({ children }) => {
         };
         initSession();
     }, []);
+
+    // Polling periódico para mantener los proyectos del usuario sincronizados con el Backend
+    useEffect(() => {
+        if (!usuarioActual) return;
+        const interval = setInterval(() => {
+            const sesionUsuario = localStorage.getItem('usuarioActual');
+            if (sesionUsuario) {
+                const usr = JSON.parse(sesionUsuario);
+                cargarDatosDesdeBackend(usr);
+            }
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [usuarioActual?.id]);
 
     // Obtener lista de usuarios registrados (Local)
     const obtenerUsuarios = async () => {
@@ -348,13 +361,29 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Salir de un grupo
-    const salirDeGrupo = (proyectoId) => {
-        return { exito: true };
+    const salirDeGrupo = async (proyectoId) => {
+        if (!usuarioActual) return { exito: false };
+        try {
+            await apiSalirDeGrupo(proyectoId, usuarioActual.id);
+            await cargarDatosDesdeBackend(usuarioActual);
+            return { exito: true };
+        } catch (err) {
+            console.error("Error saliendo del grupo:", err);
+            return { exito: false };
+        }
     };
 
     // Quitar un miembro específico del grupo
-    const quitarMiembro = (proyectoId, miembroId) => {
-        return { exito: true };
+    const quitarMiembro = async (proyectoId, miembroId) => {
+        if (!usuarioActual) return { exito: false };
+        try {
+            await apiQuitarMiembro(proyectoId, miembroId, usuarioActual.id);
+            await cargarDatosDesdeBackend(usuarioActual);
+            return { exito: true };
+        } catch (err) {
+            console.error("Error quitando miembro del grupo:", err);
+            return { exito: false };
+        }
     };
 
     // Cerrar sesión usuario

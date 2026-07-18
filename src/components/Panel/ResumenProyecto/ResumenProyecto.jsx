@@ -25,7 +25,7 @@ const ResumenProyecto = ({
     const [miembroAQuitar, setMiembroAQuitar] = useState(null);       // confirmación quitar
 
     // Creador: tiene creadorId que coincide, o si no hay creadorId se trata como miembro
-    const esCreador = !!(usuarioActual && proyecto?.creadorId === usuarioActual.id);
+    const esCreador = !!(usuarioActual && String(proyecto?.creadorId) === String(usuarioActual.id));
 
     const copiarCodigo = () => {
         if (!proyecto?.codigo) return;
@@ -53,7 +53,7 @@ const ResumenProyecto = ({
     };
 
     // Miembros que el creador puede expulsar (todos menos él mismo)
-    const miembrosExpulsables = miembros.filter(m => m.userId !== usuarioActual?.id);
+    const miembrosExpulsables = miembros.filter(m => String(m.userId) !== String(usuarioActual?.id));
 
     return (
         <>
@@ -215,8 +215,8 @@ const ResumenProyecto = ({
 
                         <div className="resumen-lista-miembros">
                             {miembros.map(m => {
-                                const esMismoCreadorm = m.userId === usuarioActual?.id;
-                                const estaEnConfirmacion = miembroAQuitar?.userId === m.userId;
+                                const esMismoCreadorm = String(m.userId) === String(usuarioActual?.id);
+                                const estaEnConfirmacion = miembroAQuitar && String(miembroAQuitar.userId) === String(m.userId);
 
                                 return (
                                     <div key={m.userId || m.id} className="resumen-miembro-fila">
