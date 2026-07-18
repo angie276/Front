@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import './App.css';
 import Panel from './components/Panel/Panel';
 import EspacioTrabajo from './components/Panel/EspacioTrabajo/EspacioTrabajo';
-import Sidebar from './components/Panel/Sidebar/Sidebar';
+import Sidebar from './components/Panel/Sidebar/SideBar';
 import NotificationModal from './components/Panel/TablaTareas/NotificationModal';
 import { useAuth } from './context/AuthContext';
 
