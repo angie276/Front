@@ -29,8 +29,7 @@ const Sidebar = ({
     onLogout,
     proyectoSeleccionado,
     vista,
-    tabActivo,
-    countNotificaciones = 0
+    tabActivo
 }) => {
 
     // Obtener inicial del usuario
@@ -110,15 +109,9 @@ const Sidebar = ({
                             onClick={onOpenNotifications}
                             className="nav-item sidebar-notifications-item"
                             title="Notificaciones"
-                            style={{ position: 'relative' }}
                         >
                             <IconBell />
                             {!colapsado && <span>Notificaciones</span>}
-                            {countNotificaciones > 0 && (
-                                <span className="notification-badge-sidebar">
-                                    {countNotificaciones}
-                                </span>
-                            )}
                         </li>
                     </ul>
                 </div>
